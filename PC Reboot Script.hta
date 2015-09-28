@@ -1,0 +1,55 @@
+<html>
+<HEAD>
+<title>PC Reboot Scheduler</title>
+<HTA:Application
+ApplicationName = Mambang-Jamban
+BorderStyle = Raised
+ShowInTaskBar = Yes
+MaximizeButton = Yes
+MinimizeButton = Yes
+WindowState = Normal
+SINGLEINSTANCE = YES
+>
+</HEAD>
+
+  <SCRIPT Language = "VBScript">
+window.resizeto 450, 150
+window.moveto 300,150
+
+    Dim idTimer
+
+    Sub Window_Onload
+        idTimer = window.setTimeout("RebootPC", 60000, "VBScript")
+	ReadTime.InnerHTML = Now
+        RebootTime.InnerHTML = Now + (1/1440)
+    End Sub
+
+    Sub RebootPC
+        window.clearTimeout(idTimer)
+	Set OpSysSet = GetObject("winmgmts:{(Shutdown)}//./root/cimv2").ExecQuery("select * from Win32_OperatingSystem where Primary=true") 
+	for each OpSys in OpSysSet 
+	    OpSys.Reboot() 
+	next
+    End Sub
+
+    Sub CancelReboot
+        window.clearTimeout(idTimer)
+        Msgbox "Please reboot this PC once you have completed your work."
+	window.close()
+    End Sub
+
+</SCRIPT>
+
+<BODY>
+
+<table>
+
+<tr><td>Program launch  at</td><td>: <span id = "ReadTime"></span></td>
+<td><input type="button" value="Reboot" onClick="RebootPC"> </td></tr>
+<tr><td>PC will reboot at</td><td>: <span id = "RebootTime"></span></td> 
+<td><input type="button" value="Cancel " onClick="CancelReboot"> </td></tr>
+
+</table>
+
+</BODY>
+</html>

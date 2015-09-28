@@ -1,0 +1,4 @@
+Just a simple pop up window to tell staff to reboot the PC terminal based on scheduled dates. Can be build with uptime script before launching.
+
+Usage : cscript Pipe-Days-Uptime-Checker.vbs 5
+Where 5 is the max number of days the PC can run before prompting user to reboot. Run this in windows Task Scheduler.
